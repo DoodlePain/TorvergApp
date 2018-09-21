@@ -1,33 +1,29 @@
 import React, { Component } from "react";
-import { Header, Icon } from "react-native-elements";
+import { StyleSheet } from "react-native";
+import { Header, Text } from "react-native-elements";
 
 export default class Topbar extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    var leftElement = { icon: "menu", color: "#fff" };
-    if (this.props.home === false) {
-      console.log(this.props.home);
-
-      leftElement = (
-        <Icon
-          raised
-          name="heartbeat"
-          type="font-awesome"
-          color="#f50"
-          onPress={() => {
-            this.props.history.push("/");
-          }}
-        />
-      );
-    }
     return (
       <Header
-        leftComponent={leftElement}
-        centerComponent={{ text: "MY TITLE", style: { color: "#fff" } }}
-        rightComponent={{ icon: "home", color: "#fff" }}
+        centerComponent={
+          <Text h2 style={styles.header}>
+            Torvergapp
+          </Text>
+        }
       />
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 30,
+    paddingTop: 20
+  }
+});

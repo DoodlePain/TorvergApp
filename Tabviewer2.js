@@ -46,40 +46,40 @@ export default class tabviewer extends Component {
           "17:00 : ",
           "18:00 : "
         ];
-        for (i = 1; i < 11; i++) {
+        for (i = 11; i < 21; i++) {
           bodya = text[i].split('</tr><tr style="');
           bodya = bodya[0];
           bodya = bodya.split("<td");
           body1 = bodya[1];
           body1 = body1.split(">");
           if (body1[2] != "") {
-            body1 = "\n" + ore[i - 1] + "" + body1[2].replace("</a", "");
+            body1 = "\n" + ore[i - 11] + "" + body1[2].replace("</a", "");
           } else {
-            body1 = "\n" + ore[i - 1] + "" + "Nulla";
+            body1 = "\n" + ore[i - 11] + "" + "Nulla";
           }
           app.push(body1);
           body2 = bodya[2];
           body2 = body2.split(">");
           if (body2[2] != "") {
-            body2 = "\n" + ore[i - 1] + "" + body2[2].replace("</a", "");
+            body2 = "\n" + ore[i - 11] + "" + body2[2].replace("</a", "");
           } else {
-            body2 = "\n" + ore[i - 1] + "" + "Nulla";
+            body2 = "\n" + ore[i - 11] + "" + "Nulla";
           }
           app2.push(body2);
           body3 = bodya[3];
           body3 = body3.split(">");
           if (body3[2] != "") {
-            body3 = "\n" + ore[i - 1] + "" + body3[2].replace("</a", "");
+            body3 = "\n" + ore[i - 11] + "" + body3[2].replace("</a", "");
           } else {
-            body3 = "\n" + ore[i - 1] + "" + "Nulla";
+            body3 = "\n" + ore[i - 11] + "" + "Nulla";
           }
           app3.push(body3);
           body4 = bodya[4];
           body4 = body4.split(">");
           if (body4[2] != "") {
-            body4 = "\n" + ore[i - 1] + "" + body4[2].replace("</a", "");
+            body4 = "\n" + ore[i - 11] + "" + body4[2].replace("</a", "");
           } else {
-            body4 = "\n" + ore[i - 1] + "" + "Nulla";
+            body4 = "\n" + ore[i - 11] + "" + "Nulla";
           }
           app4.push(body4);
           body5 = bodya[5];
@@ -88,9 +88,9 @@ export default class tabviewer extends Component {
             body5[2] = "";
           }
           if (body5[2] != "") {
-            body5 = "\n" + ore[i - 1] + "" + body5[2].replace("</a", "");
+            body5 = "\n" + ore[i - 11] + "" + body5[2].replace("</a", "");
           } else {
-            body5 = "\n" + ore[i - 1] + "" + "Nulla";
+            body5 = "\n" + ore[i - 11] + "" + "Nulla";
           }
           app5.push(body5);
         }
