@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import Navbar from "./Navbar";
 import Striptags from "striptags";
 
-list = (news, i) => {
+var list = (news, i) => {
   var final = [];
   while (i !== 0) {
     if (i != 0) {
@@ -28,10 +28,10 @@ list = (news, i) => {
   return final;
 };
 
-fixedText = text => {
+var fixedText = text => {
   var fixedText = text;
   for (var k = 0; k < 100; k++) {
-    fixedText = fixedText.replace("&nbsp;", " ");
+    fixedText = fixedText.replace("&nbsp;", "");
     fixedText = fixedText.replace("&rsquo;", "'");
     fixedText = fixedText.replace("&euro;", "€");
     fixedText = fixedText.replace("&rdquo;", '"');
@@ -41,44 +41,80 @@ fixedText = text => {
     fixedText = fixedText.replace("&igrave; ", "ì");
     fixedText = fixedText.replace("&ograve; ", "ò");
     fixedText = fixedText.replace("&ugrave; ", "ù");
+    fixedText = fixedText.replace(" \n", "  ");
+    fixedText = fixedText.replace("\r", " ");
   }
   return fixedText;
 };
-
 export default class News extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      fetching: true
+    };
   }
+
   render() {
-    var ultimate = [];
-    var url = "http://informatica.uniroma2.it/f0?fid=50&srv=4&pag=0";
-    var novita = [<Text key={100} />];
-    fetch(url)
-      .then(resp => {
-        return resp.text();
-        console.log("Working");
-      })
-      .then(text => {
-        text = text.split("<body>")[1];
-        text = text.split("</body>")[0];
-        text = text.replace(/\u00a0/g, " ");
-        var news = text.split("<table>");
-        i = news.length - 1;
-        ultimate = list(news, i);
-        ultimate.map((el, i) => {
-          console.log(el.title);
-          novita.push(
-            <Text h1 key={i}>
-              {JSON.stringify(el.title)}
-            </Text>
-          );
+    var fetchData = () => {
+      var ultimate = [];
+      var url = "http://informatica.uniroma2.it/f0?fid=50&srv=4&pag=0";
+      var novita = [<Text key={-1} />];
+
+      fetch(url)
+        .then(resp => {
+          return resp.text();
+        })
+        .then(text => {
+          text = text.split("<body>")[1];
+          text = text.split("</body>")[0];
+          text = text.replace(/\u00a0/g, " ");
+          var news = text.split("<table>");
+          i = news.length - 1;
+          ultimate = list(news, i);
+          ultimate.map((el, i) => {
+            novita.push(
+              <ScrollView key={i}>
+                <Text style={styles.Title} key={i + 100}>
+                  {el.title}
+                </Text>
+                <Text style={styles.Date} key={i + 200}>
+                  {el.date}
+                </Text>
+                <Text style={styles.Text} key={i + 300}>
+                  {el.text}
+                </Text>
+              </ScrollView>
+            );
+          });
+          this.setState({ fetching: novita });
+          return novita;
         });
-      });
+    };
+
+    if (this.state.fetching === true) {
+      novita = fetchData();
+    }
+
     return (
-      <ScrollView>
+      <View>
         <Navbar history={this.props.history} title={"Notizie"} />
-        {novita}
-      </ScrollView>
+        <ScrollView>{this.state.fetching}</ScrollView>
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  Title: {
+    fontWeight: "bold",
+    fontSize: 20,
+    paddingBottom: 0
+  },
+  Date: {
+    color: "red",
+    paddingBottom: 5
+  },
+  Text: {
+    paddingBottom: 20
+  }
+});
